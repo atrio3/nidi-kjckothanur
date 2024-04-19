@@ -44,6 +44,10 @@ function Sidebar({ open, toggleSidebar }) {
           </button>
         </li>
       </ul>
+
+      <div className='sidebar-footer'>
+        Powered by: Atrio technologies
+      </div>
     </aside>
   );
 }
