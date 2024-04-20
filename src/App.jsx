@@ -6,6 +6,7 @@ import Login from "./pages/Login/Login";
 import Home from "./pages/home/Home"; 
 import { AuthContext } from "./context/AuthContext";
 import Booking from './pages/Booking/Booking';
+// import Completed from './pages/Completed/Completed';
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -18,6 +19,8 @@ function App() {
           <Route path="/" element={currentUser ? <Home /> : <Navigate to="/login" />} />
           <Route path="/vehicles" element={currentUser ? <Vehicle /> : <Navigate to="/" />} />
           <Route path="/booking" element={currentUser ? <Booking /> : <Navigate to="/" />} />
+          {/* <Route path="/completed" element={currentUser ? <Completed /> : <Navigate to="/" />} /> */}
+
         </Routes>
       </Router>
     </div>

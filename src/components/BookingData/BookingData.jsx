@@ -242,6 +242,7 @@ const BookingData = () => {
                     <button disabled>{completionStatus[index]}</button>
                   )}
                 </td>
+                <td><button>delete</button></td>
               </tr>
             ))}
           </tbody>

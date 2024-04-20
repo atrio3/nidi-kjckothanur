@@ -37,6 +37,11 @@ function Sidebar({ open, toggleSidebar }) {
             <BsFillArchiveFill className='icon' /> Vehicles
           </Link>
         </li>
+        <li className='sidebar-list-item'>
+          <Link to="/completed">
+            <BsFillArchiveFill className='icon' /> Completed Bookings
+          </Link>
+        </li>
 
         <li className='sidebar-list-item'>
           <button className='logout-button' onClick={handleLogout}>

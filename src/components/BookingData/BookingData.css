@@ -61,12 +61,12 @@
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow: overlay;
 }
 
 .booking-table thead,
 .booking-table tbody {
-  display: block;
+  display: contents;
 }
 
 .booking-table thead {
@@ -125,8 +125,8 @@
   color: blue;
 }
 button:disabled {
-  color: #999;            /* Light grey text */
+  color: #999; /* Light grey text */
   background-color: #ccc; /* Darker grey background */
   border: 1px solid #aaa; /* Grey border */
-  cursor: not-allowed;    /* Cursor to indicate the button is disabled */
+  cursor: not-allowed; /* Cursor to indicate the button is disabled */
 }
