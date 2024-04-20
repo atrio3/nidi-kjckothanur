@@ -124,3 +124,9 @@
   background-color: #cccccc;
   color: blue;
 }
+button:disabled {
+  color: #999;            /* Light grey text */
+  background-color: #ccc; /* Darker grey background */
+  border: 1px solid #aaa; /* Grey border */
+  cursor: not-allowed;    /* Cursor to indicate the button is disabled */
+}
