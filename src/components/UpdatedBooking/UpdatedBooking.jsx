@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ref, onValue } from "firebase/database";
 import { database } from "../../firebase"; // Ensure this path is correct
+import { Search } from "@mui/icons-material";
 import "./UpdatedBooking.css";
 
 const UpdatedBooking = () => {
@@ -8,6 +9,7 @@ const UpdatedBooking = () => {
   const [bookings, setBookings] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   console.log(filteredData);
 
@@ -39,6 +41,15 @@ const UpdatedBooking = () => {
     fetchUpdatedBookings();
   }, []);
 
+  useEffect(() => {
+    const filtered = searchQuery
+      ? tableData.filter((user) =>
+          user.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : tableData;
+    setFilteredData(filtered);
+  }, [searchQuery, tableData]);
+
   const formatTime = (timeString) => {
     const timeParts = timeString.split(":");
     const hours = parseInt(timeParts[0], 10);
@@ -66,6 +77,17 @@ const UpdatedBooking = () => {
   return (
     <div>
       <h2>Updated Bookings</h2>
+      <div className="search-container">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search by Name"
+        />
+        <button onClick={() => setSearchQuery("")}>
+          <Search />
+        </button>
+      </div>
       <div className="table-container">
         <table className="booking-table">
           <thead>
