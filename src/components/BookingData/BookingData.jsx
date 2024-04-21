@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, remove } from "firebase/database";
 import { database, db } from "../../firebase";
 import "./BookingData.css";
 import { Search } from "@mui/icons-material";
@@ -173,6 +173,61 @@ const BookingData = () => {
     }
   };
 
+  const postData = async (userDetails, index) => {
+    const {
+      name,
+      email,
+      address,
+      tel,
+      drivingID,
+      vehicle_name,
+      vehicle_price,
+      rentAmount,
+      pickUpDate,
+      dropOffDate,
+      time,
+      vehicle_category,
+    } = userDetails;
+
+    const postRes = await fetch(
+      "https://nidi-databases-default-rtdb.firebaseio.com/completed-bookings.json",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          tel,
+          address,
+          drivingID,
+          vehicle_name,
+          vehicle_category,
+          vehicle_price,
+          pickUpDate,
+          dropOffDate,
+          time,
+          rentAmount,
+        }),
+      }
+    );
+
+    if (postRes.ok) {
+      // Check if POST was successful
+      // Delete from Firebase
+      const userDetailRef = ref(
+        database,
+        `UserDetails/${userDetailsIds[index]}`
+      );
+      await remove(userDetailRef);
+
+      // Update local state without re-fetching
+      setFilteredData((prevData) => prevData.filter((_, idx) => idx !== index));
+      setTableData((prevData) => prevData.filter((_, idx) => idx !== index));
+    }
+  };
+
   return (
     <div className="booking-data-container">
       <h2 className="booking-data-title">KJC KOTHANUR Bookings:</h2>
@@ -242,7 +297,15 @@ const BookingData = () => {
                     <button disabled>{completionStatus[index]}</button>
                   )}
                 </td>
-                <td><button>delete</button></td>
+                <td>
+                  {completionStatus[index] === "completed" ? (
+                    <button onClick={() => postData(userDetails, index)}>
+                      Delete
+                    </button>
+                  ) : (
+                    <button disabled>Complete to enable</button>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

@@ -1,62 +1,104 @@
-// import React, { useState, useEffect } from 'react';
-// import firebase from 'firebase/app';
-// import 'firebase/database';
-// import './UpdatedBooking.css'
+import React, { useState, useEffect } from "react";
+import { ref, onValue } from "firebase/database";
+import { database } from "../../firebase"; // Ensure this path is correct
+import "./UpdatedBooking.css";
 
-// const UpdatedBooking = () => {
-//   // State to store fetched bookings
-//   const [bookings, setBookings] = useState([]);
+const UpdatedBooking = () => {
+  // State to store fetched bookings
+  const [bookings, setBookings] = useState([]);
 
-//   useEffect(() => {
-//     // Fetch updated bookings data
-//     const fetchUpdatedBookings = async () => {
-//       try {
-//         const db = firebase.database();
-//         const updatedBookingsRef = db.ref('completed-bookings');
+  useEffect(() => {
+    const fetchUpdatedBookings = () => {
+      const updatedBookingsRef = ref(database, "completed-bookings");
 
-//         // Listen for data changes
-//         updatedBookingsRef.on('value', (snapshot) => {
-//           const data = snapshot.val();
-//           if (data) {
-//             // Convert data object to an array
-//             const updatedBookingsArray = Object.keys(data).map((key) => ({
-//               id: key,
-//               ...data[key],
-//             }));
-//             // Update state with fetched data
-//             setBookings(updatedBookingsArray);
-//           } else {
-//             // If no data found, set bookings to an empty array
-//             setBookings([]);
-//           }
-//         });
-//       } catch (error) {
-//         console.error('Error fetching updated bookings:', error);
-//       }
-//     };
+      const unsubscribe = onValue(updatedBookingsRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          const updatedBookingsArray = Object.keys(data).map((key) => ({
+            id: key,
+            ...data[key],
+          }));
+          setBookings(updatedBookingsArray);
+        } else {
+          setBookings([]);
+        }
+      });
 
-//     // Call fetch function
-//     fetchUpdatedBookings();
+      return () => unsubscribe();
+    };
 
-//     // Clean up Firebase listener
-//     return () => {
-//       firebase.database().ref('completed-bookings').off('value');
-//     };
-//   }, []);
+    fetchUpdatedBookings();
+  }, []);
 
-//   return (
-//     <div>
-//       <h2>Updated Bookings</h2>
-//       <ul>
-//         {bookings.map((booking) => (
-//           <li key={booking.id}>
-//             <p>Booking ID: {booking.id}</p>
-//             {/* Render other booking details here */}
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
+  const formatTime = (timeString) => {
+    const timeParts = timeString.split(":");
+    const hours = parseInt(timeParts[0], 10);
+    const minutes = parseInt(timeParts[1], 10);
 
-// export default UpdatedBooking;
+    let amOrPm = "AM";
+    let formattedHours = hours;
+
+    if (hours >= 12) {
+      amOrPm = "PM";
+      formattedHours = hours === 12 ? 12 : hours - 12;
+    }
+
+    return `${formattedHours}:${minutes < 10 ? "0" : ""}${minutes} ${amOrPm}`;
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  return (
+    <div>
+      <h2>Updated Bookings</h2>
+      <div className="table-container">
+        <table className="booking-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Phone No.</th>
+              <th>Driving ID</th>
+              <th>Selected Vehicle</th>
+              <th>Vehicle Price</th>
+              <th>Vehicle Category</th>
+              <th>Pickup Date</th>
+              <th>Drop-off Date</th>
+              <th>Time</th>
+              <th>Total Paid Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {bookings.map((booking, index) => (
+              <tr key={booking.id}>
+                <td>{index + 1}</td>
+                <td>{booking.name}</td>
+                <td>{booking.email}</td>
+                <td>{booking.address}</td>
+                <td>{booking.tel}</td>
+                <td>{booking.drivingID}</td>
+                <td>{booking.vehicle_name}</td>
+                <td>₹{booking.vehicle_price}</td>
+                <td>{booking.vehicle_category}</td>
+                <td>{formatDate(booking.pickUpDate)}</td>
+                <td>{formatDate(booking.dropOffDate)}</td>
+                <td>{formatTime(booking.time)}</td>
+                <td>₹{booking.rentAmount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+export default UpdatedBooking;
