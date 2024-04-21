@@ -6,6 +6,10 @@ import "./UpdatedBooking.css";
 const UpdatedBooking = () => {
   // State to store fetched bookings
   const [bookings, setBookings] = useState([]);
+  const [tableData, setTableData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+
+  console.log(filteredData);
 
   useEffect(() => {
     const fetchUpdatedBookings = () => {
@@ -18,6 +22,11 @@ const UpdatedBooking = () => {
             id: key,
             ...data[key],
           }));
+          const filteredData = updatedBookingsArray.filter(
+            (item) => item.userLocation === "KJC KOTHANUR"
+          );
+          setTableData(filteredData);
+          setFilteredData(filteredData);
           setBookings(updatedBookingsArray);
         } else {
           setBookings([]);
@@ -77,7 +86,7 @@ const UpdatedBooking = () => {
             </tr>
           </thead>
           <tbody>
-            {bookings.map((booking, index) => (
+            {filteredData.map((booking, index) => (
               <tr key={booking.id}>
                 <td>{index + 1}</td>
                 <td>{booking.name}</td>

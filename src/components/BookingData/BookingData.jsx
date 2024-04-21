@@ -187,6 +187,7 @@ const BookingData = () => {
       dropOffDate,
       time,
       vehicle_category,
+      userLocation,
     } = userDetails;
 
     const postRes = await fetch(
@@ -209,6 +210,7 @@ const BookingData = () => {
           dropOffDate,
           time,
           rentAmount,
+          userLocation,
         }),
       }
     );
