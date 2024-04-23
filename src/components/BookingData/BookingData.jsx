@@ -287,7 +287,11 @@ const BookingData = () => {
                 <td>{formatDate(userDetails.dropOffDate)}</td>
                 <td>{formatTime(userDetails.time)}</td>
                 <td>₹{userDetails.rentAmount}</td>
-                <td>{userDetails.image_Url}</td>
+                <tr>
+                  <td>
+                    <a href={userDetails.image_Url}>Click Here</a>
+                  </td>
+                </tr>
                 <td>
                   {completionStatus[index] !== "completed" ? (
                     <button
