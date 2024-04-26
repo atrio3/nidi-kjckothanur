@@ -296,57 +296,54 @@ const BookingData = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredData
-              .slice()
-              .reverse()
-              .map((userDetails, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{userDetailsIds[index]}</td>
-                  <td>{userDetails.name}</td>
-                  <td>{userDetails.email}</td>
-                  <td>{userDetails.address}</td>
-                  {/* <td>{userDetails.userLocation}</td> */}
-                  <td>{userDetails.tel}</td>
-                  <td>{userDetails.drivingID}</td>
-                  <td>{userDetails.vehicle_name}</td>
-                  <td>₹{userDetails.vehicle_price}</td>
-                  <td>{userDetails.vehicle_category}</td>
-                  <td>{formatDate(userDetails.pickUpDate)}</td>
-                  <td>{formatDate(userDetails.dropOffDate)}</td>
-                  <td>{formatTime(userDetails.time)}</td>
-                  <td>₹{userDetails.rentAmount}</td>
-                  <tr>
-                    <td>
-                      <a href={userDetails.image_Url}>Click Here</a>
-                    </td>
-                  </tr>
+            {filteredData.map((userDetails, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{userDetailsIds[index]}</td>
+                <td>{userDetails.name}</td>
+                <td>{userDetails.email}</td>
+                <td>{userDetails.address}</td>
+                {/* <td>{userDetails.userLocation}</td> */}
+                <td>{userDetails.tel}</td>
+                <td>{userDetails.drivingID}</td>
+                <td>{userDetails.vehicle_name}</td>
+                <td>₹{userDetails.vehicle_price}</td>
+                <td>{userDetails.vehicle_category}</td>
+                <td>{formatDate(userDetails.pickUpDate)}</td>
+                <td>{formatDate(userDetails.dropOffDate)}</td>
+                <td>{formatTime(userDetails.time)}</td>
+                <td>₹{userDetails.rentAmount}</td>
+                <tr>
                   <td>
-                    {completionStatus[index] !== "completed" ? (
-                      <button
-                        onClick={() => {
-                          handleClick(index, userDetails);
-                          console.log(requiredData);
-                          console.log("Quantity Data", quantityData);
-                        }}
-                      >
-                        {completionStatus[index]}
-                      </button>
-                    ) : (
-                      <button disabled>{completionStatus[index]}</button>
-                    )}
-                  </td>
-                  <td>
-                    {completionStatus[index] === "completed" ? (
-                      <button onClick={() => postData(userDetails, index)}>
-                        Delete
-                      </button>
-                    ) : (
-                      <button disabled>Complete to enable</button>
-                    )}
+                    <a href={userDetails.image_Url}>Click Here</a>
                   </td>
                 </tr>
-              ))}
+                <td>
+                  {completionStatus[index] !== "completed" ? (
+                    <button
+                      onClick={() => {
+                        handleClick(index, userDetails);
+                        console.log(requiredData);
+                        console.log("Quantity Data", quantityData);
+                      }}
+                    >
+                      {completionStatus[index]}
+                    </button>
+                  ) : (
+                    <button disabled>{completionStatus[index]}</button>
+                  )}
+                </td>
+                <td>
+                  {completionStatus[index] === "completed" ? (
+                    <button onClick={() => postData(userDetails, index)}>
+                      Delete
+                    </button>
+                  ) : (
+                    <button disabled>Complete to enable</button>
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
