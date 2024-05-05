@@ -126,9 +126,7 @@ const BookingData = () => {
   }, []);
 
   const handleClick = (index, userDetails) => {
-    const data = quantityData.find(
-      (item) => item.id === userDetails.vehicle_id
-    );
+    const data = quantityData.find((item) => item.id == userDetails.vehicle_id);
     if (data) {
       setCompletionStatus((prevStatus) => ({
         ...prevStatus,
