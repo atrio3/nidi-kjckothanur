@@ -231,7 +231,7 @@ const BookingData = () => {
       await remove(userDetailRef);
 
       setFilteredData((prevData) => prevData.filter((_, idx) => idx !== index));
-      setTableData((prevData) => prevData.filter((_, idx) => idx !== index));
+      // setTableData((prevData) => prevData.filter((_, idx) => idx !== index));
     }
   };
 
@@ -340,7 +340,11 @@ const BookingData = () => {
                 </td>
                 <td>
                   {completionStatus[index] === "completed" ? (
-                    <button onClick={() => postData(userDetails, index)}>
+                    <button
+                      onClick={() => {
+                        postData(userDetails, index);
+                      }}
+                    >
                       Delete
                     </button>
                   ) : (
