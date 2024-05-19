@@ -17,6 +17,9 @@ const BookingData = () => {
   const [completionStatus, setCompletionStatus] = useState({});
   const [userDetailsIds, setUserDetailsIds] = useState([]);
 
+  console.log("Fileterd Data", filteredData);
+  console.log("Table Data", tableData);
+
   useEffect(() => {
     const fetchUserDetailsIds = async () => {
       const dbRef = ref(database, "UserDetails");
@@ -231,7 +234,8 @@ const BookingData = () => {
       await remove(userDetailRef);
 
       setFilteredData((prevData) => prevData.filter((_, idx) => idx !== index));
-      // setTableData((prevData) => prevData.filter((_, idx) => idx !== index));
+      setTableData((prevData) => prevData.filter((_, idx) => idx !== index));
+      window.location.reload();
     }
   };
 
